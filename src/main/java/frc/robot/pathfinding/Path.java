@@ -1,11 +1,10 @@
-package frc.robot;
+package frc.robot.pathfinding;
 
 import java.awt.geom.Line2D;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import frc.robot.obstacle.Obstacle;
 
 public class Path {
     public final Pose2d startingPoint;

@@ -1,4 +1,4 @@
-package frc.robot.obstacle;
+package frc.robot.pathfinding;
 
 import java.awt.geom.*;
 
