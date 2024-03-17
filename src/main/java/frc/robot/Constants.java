@@ -16,4 +16,9 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final double ROBOT_LENGTH = 0.7;
+  public static final double ROBOT_WIDTH = 0.7;
+
+  public static final double ROBOT_RADIUS = Math.sqrt((ROBOT_LENGTH + ROBOT_WIDTH) / 2);
 }
