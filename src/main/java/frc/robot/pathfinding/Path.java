@@ -18,6 +18,7 @@ public class Path {
         this.obstacles = obstacles;
     }
 
+    /** @return whether the ending point can be driven straight to from the starting point. */
     public boolean setpointSeeable() {
         AtomicBoolean seeable = new AtomicBoolean(true);
         Line2D beeline = new Line2D.Double(
