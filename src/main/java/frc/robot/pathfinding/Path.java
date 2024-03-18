@@ -22,7 +22,6 @@ public class Path {
         this.obstacles = obstacles;
     }
 
-
     /** Static method to find out whether a point can be driven straight to from another point.
      * @param startPoint The starting point.
      * @param setPoint The ending point.
