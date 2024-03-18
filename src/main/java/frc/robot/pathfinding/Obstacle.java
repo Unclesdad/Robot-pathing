@@ -6,6 +6,7 @@ import frc.robot.Constants;
 
 public class Obstacle {
     public java.awt.Shape obstacle;
+    
     public Rectangle2D noRobotBoundingBox = 
         obstacle.getBounds2D();
 
