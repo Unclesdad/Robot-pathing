@@ -34,7 +34,7 @@ public class Path {
             startPoint.getY(), 
             setPoint.getX(), 
             setPoint.getY());
-        obstaclelist.forEach(obstacle -> seeable.set(seeable.get() && beeline.intersects(obstacle.boundingBox())));
+        obstaclelist.forEach(obstacle -> seeable.set(seeable.get() && shapeIntersectsLine(obstacle.obstacleProjection(), beeline)));
         return seeable.get();
     }
 
