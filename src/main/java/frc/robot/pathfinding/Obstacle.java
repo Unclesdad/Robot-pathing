@@ -43,7 +43,7 @@ public class Obstacle {
         int[] xPoints = new int[points.size()];
         int[] yPoints = new int[points.size()];
 
-        ListIterator iterator = points.listIterator();
+        ListIterator<Translation2d> iterator = points.listIterator();
 
         while (iterator.hasNext()) {
             xPoints[iterator.nextIndex()] = 

@@ -69,4 +69,6 @@ public class Path {
     public boolean setPointSeeable() {
         return pointSeeable(startingPoint, endingPoint, obstacles);
     }
+
+    
 }

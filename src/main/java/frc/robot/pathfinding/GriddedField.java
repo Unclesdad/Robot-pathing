@@ -53,7 +53,7 @@ public class GriddedField {
      * @param field A GridBox two-dimensional array which represents the field to which the obstacles will be added into.
      */
     public static void addObstacles(List<Obstacle> obstacles, GridBox[][] field) {
-        ListIterator iterator = obstacles.listIterator();
+        ListIterator<Obstacle> iterator = obstacles.listIterator();
 
         while (iterator.hasNext()) {
             Shape obstacle = obstacles.get(iterator.nextIndex()).projectedObstacle;
@@ -83,5 +83,4 @@ public class GriddedField {
     public GridBox[][] field() {
         return fullField;
     }
-
 }
