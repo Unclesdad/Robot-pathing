@@ -21,4 +21,10 @@ public final class Constants {
   public static final double ROBOT_WIDTH = 0.7;
 
   public static final double ROBOT_RADIUS = Math.sqrt((ROBOT_LENGTH + ROBOT_WIDTH) / 2);
+
+  public final class Field {
+    public static final double FIELD_LENGTH = 1654; // in cm
+    public static final double FIELD_WIDTH = 821; // also in cm
+
+  }
 }
