@@ -10,9 +10,9 @@ import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
 
 public class Obstacle {
-    public java.awt.Shape obstacle;
+    java.awt.Shape obstacle;
     
-    public Rectangle2D boundingBox = 
+    Rectangle2D boundingBox = 
         obstacle.getBounds2D();
 
     // the area in which the CENTER of the robot should not go, lest the EDGE of the robot will touch the EDGE of the obstacle.

@@ -17,9 +17,9 @@ public class GriddedField {
 
     /* Increasing the grid size to make it GRID_SIDE_LENGTH on each side, because otherwise 
     * it would take up too much processing power and we don't need that level of precision. */
-    boolean[][] baseField = new boolean[(int) INT_FIELD_LENGTH / GRID_SIDE_LENGTH][(int) INT_FIELD_WIDTH / GRID_SIDE_LENGTH];
+    GridBox[][] baseField = new GridBox[(int) INT_FIELD_LENGTH / GRID_SIDE_LENGTH][(int) INT_FIELD_WIDTH / GRID_SIDE_LENGTH];
     
-    boolean[][] fullField = baseField;
+    GridBox[][] fullField = baseField;
 
     /**
      * Constructor. Instantiates a Gridded Field.
@@ -29,22 +29,7 @@ public class GriddedField {
     public GriddedField(List<Obstacle> stationaryObstacles) {
         this.stationaryObstacles = stationaryObstacles;
 
-        ListIterator iterator = stationaryObstacles.listIterator();
-
-        while (iterator.hasNext()) {
-            Shape obstacle = stationaryObstacles.get(iterator.nextIndex()).projectedObstacle;
-            Rectangle2D obstacleBoundingBox = stationaryObstacles.get(iterator.nextIndex()).projectedObstacle.getBounds2D();
-            int boundingX = (int) obstacleBoundingBox.getX();
-            int boundingY = (int) obstacleBoundingBox.getY();
-            int boundingWidth = (int) obstacleBoundingBox.getWidth();
-            int boundingHeight = (int) obstacleBoundingBox.getHeight();
-
-            for (int x = boundingX; x <= boundingX + boundingWidth; x++) {
-                for (int y = boundingY; y <= boundingY + boundingHeight; y++) {
-                    baseField[x][y] = obstacle.contains(x,y);
-                }
-            }     
-        }
+        addObstacles(stationaryObstacles, baseField);
     }
 
     /**
@@ -55,7 +40,8 @@ public class GriddedField {
      * the field and re-placing them in their new position every period.
      */
     public void addTempObstacles(List<Obstacle> obstacles) {
-        addTempObstacles(obstacles, true);
+        removeTempObstacles();
+        addObstacles(obstacles, fullField);
     }
 
     /**
@@ -67,10 +53,7 @@ public class GriddedField {
      * obstacles. If true -> temporary obstacles are cleared. If false -> temporary obstacles are not cleared and
      * the inputted obstacles are place on top of the current ones.
      */
-    public void addTempObstacles(List<Obstacle> obstacles, boolean resetTemps) {
-        if (resetTemps) {
-            fullField = baseField;
-        }
+    public void addObstacles(List<Obstacle> obstacles, GridBox[][] field) {
         ListIterator iterator = obstacles.listIterator();
 
         while (iterator.hasNext()) {
@@ -83,7 +66,9 @@ public class GriddedField {
     
             for (int x = boundingX; x <= boundingX + boundingWidth; x++) {
                 for (int y = boundingY; y <= boundingY + boundingHeight; y++) {
-                    fullField[x][y] = obstacle.contains(x,y);
+                    if (obstacle.contains(x,y)) {
+                        field[x][y].obstaclize();
+                    }
                 }
             }     
         }
@@ -93,7 +78,7 @@ public class GriddedField {
         fullField = baseField;
     }
 
-    public boolean[][] field() {
+    public GridBox[][] field() {
         return fullField;
     }
 
