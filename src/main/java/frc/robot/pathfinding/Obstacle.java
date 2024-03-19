@@ -15,7 +15,7 @@ public class Obstacle {
     Rectangle2D boundingBox = 
         obstacle.getBounds2D();
 
-    // the area in which the CENTER of the robot should not go, lest the EDGE of the robot will touch the EDGE of the obstacle.
+    // The area in which the CENTER of the robot should not go, lest the EDGE of the robot will touch the EDGE of the obstacle.
     public java.awt.Shape projectedObstacle = AffineTransform.getScaleInstance(
         // Finding which scale factor is needed in order to increase both opposite sides by the robot radius (im a genius)
         (1 + Constants.ROBOT_RADIUS * 2 / boundingBox.getHeight()), 
@@ -146,7 +146,7 @@ public class Obstacle {
         return ellipticalObstacle(position, radius, radius);
     }
 
-    /** @return the area at which the center of the robot shall not go lest it collide with the obstacle. */
+    /** @return The area at which the center of the robot shall not go lest it collide with the obstacle. */
     public java.awt.Shape obstacleProjection() {
         return projectedObstacle;
     }

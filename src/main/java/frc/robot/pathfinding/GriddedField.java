@@ -17,14 +17,14 @@ public class GriddedField {
 
     /* Increasing the grid size to make it GRID_SIDE_LENGTH on each side, because otherwise 
     * it would take up too much processing power and we don't need that level of precision. */
-    GridBox[][] baseField = new GridBox[(int) INT_FIELD_LENGTH / GRID_SIDE_LENGTH][(int) INT_FIELD_WIDTH / GRID_SIDE_LENGTH];
+    private final GridBox[][] baseField = new GridBox[(int) INT_FIELD_LENGTH / GRID_SIDE_LENGTH][(int) INT_FIELD_WIDTH / GRID_SIDE_LENGTH];
     
-    GridBox[][] fullField = baseField;
+    private GridBox[][] fullField = baseField;
 
     /**
      * Constructor. Instantiates a Gridded Field.
      * @param stationaryObstacles A list of obstacles which contains all the permanent, 
-     * stationary 2-dimensional obstacles on the field
+     * stationary 2-dimensional obstacles on the field.
      */
     public GriddedField(List<Obstacle> stationaryObstacles) {
         this.stationaryObstacles = stationaryObstacles;
@@ -40,20 +40,19 @@ public class GriddedField {
      * the field and re-placing them in their new position every period.
      */
     public void addTempObstacles(List<Obstacle> obstacles) {
-        removeTempObstacles();
+        resetTemps();
         addObstacles(obstacles, fullField);
     }
 
     /**
-     * Adds temporary obstacles to the field. 
+     * A static method which adds temporary obstacles to a field. This method does not remove the current 
+     * temporary obstacles on the field.
      * @param obstacles A list of Obstacles, representing the temporary obstacles being placed on the field.
      * These temporary obstacles are best for moving objects, where their position can be updated by clearing
      * the field and re-placing them in their new position every period.
-     * @param resetTemps A boolean which determines whether the field should be cleared of its current temporary
-     * obstacles. If true -> temporary obstacles are cleared. If false -> temporary obstacles are not cleared and
-     * the inputted obstacles are place on top of the current ones.
+     * @param field A GridBox two-dimensional array which represents the field to which the obstacles will be added into.
      */
-    public void addObstacles(List<Obstacle> obstacles, GridBox[][] field) {
+    public static void addObstacles(List<Obstacle> obstacles, GridBox[][] field) {
         ListIterator iterator = obstacles.listIterator();
 
         while (iterator.hasNext()) {
@@ -74,10 +73,13 @@ public class GriddedField {
         }
     }
 
-    public void removeTempObstacles() {
+
+    /** Removes the temporary obstacles from the field. */
+    public void resetTemps() {
         fullField = baseField;
     }
 
+    /** @return The GridBox double array representing the field. */
     public GridBox[][] field() {
         return fullField;
     }
