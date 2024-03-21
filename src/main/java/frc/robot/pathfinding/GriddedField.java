@@ -1,5 +1,6 @@
 package frc.robot.pathfinding;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
 import frc.robot.Constants.Field;
 import java.awt.Shape;
@@ -20,9 +21,7 @@ public class GriddedField {
 
   /* Increasing the grid size to make it GRID_SIDE_LENGTH on each side, because otherwise
    * it would take up too much processing power and we don't need that level of precision. */
-  private final GridBox[][] baseField =
-      new GridBox[LENGTH_GRID_NUMBER]
-          [WIDTH_GRID_NUMBER];
+  private final GridBox[][] baseField = new GridBox[LENGTH_GRID_NUMBER][WIDTH_GRID_NUMBER];
 
   private GridBox[][] fullField = baseField;
 
@@ -42,20 +41,19 @@ public class GriddedField {
     }
 
     // Turning the walls into obstacles.
-    
+
     for (int x = 0; x < LENGTH_GRID_NUMBER; x++) {
-        for (int y = 0; y < Constants.ROBOT_RADIUS; y++) {
-            baseField[x / GRID_SIDE_LENGTH][y / GRID_SIDE_LENGTH].obstaclize();
-            baseField[x / GRID_SIDE_LENGTH][LENGTH_GRID_NUMBER - y / GRID_SIDE_LENGTH].obstaclize();
-        }
+      for (int y = 0; y < Constants.ROBOT_RADIUS; y++) {
+        baseField[x / GRID_SIDE_LENGTH][y / GRID_SIDE_LENGTH].obstaclize();
+        baseField[x / GRID_SIDE_LENGTH][LENGTH_GRID_NUMBER - y / GRID_SIDE_LENGTH].obstaclize();
+      }
     }
     for (int x = 0; x < WIDTH_GRID_NUMBER; x++) {
-        for (int y = 0; y < Constants.ROBOT_RADIUS; y++) {
-            baseField[x / GRID_SIDE_LENGTH][y / GRID_SIDE_LENGTH].obstaclize();
-            baseField[WIDTH_GRID_NUMBER - x / GRID_SIDE_LENGTH][y / GRID_SIDE_LENGTH].obstaclize();
-        }
+      for (int y = 0; y < Constants.ROBOT_RADIUS; y++) {
+        baseField[x / GRID_SIDE_LENGTH][y / GRID_SIDE_LENGTH].obstaclize();
+        baseField[WIDTH_GRID_NUMBER - x / GRID_SIDE_LENGTH][y / GRID_SIDE_LENGTH].obstaclize();
+      }
     }
-
   }
 
   /**
@@ -101,6 +99,12 @@ public class GriddedField {
         }
       }
     }
+  }
+
+  public GridBox coordsToBox(Translation2d p) {
+    int translatedX = (int) p.getX() / GRID_SIDE_LENGTH;
+    int translatedY = (int) p.getY() / GRID_SIDE_LENGTH;
+    return fullField[translatedX][translatedY];
   }
 
   /** Removes the temporary obstacles from the field. */

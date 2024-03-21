@@ -1,6 +1,9 @@
 package frc.robot.pathfinding;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Drive;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.PathIterator;
@@ -8,17 +11,35 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Path {
-  public final Pose2d startingPoint;
   public final Pose2d endingPoint;
+  // How many periods before the robot updates the field and calculates a new path.
+  // Increasing this number improves performance but also lengthens reaction time.
+  private final int REFRESH_TIME = 5;
+  private int refreshMeter = 5;
 
   public final List<Obstacle> obstacles;
 
-  public static final AffineTransform nullTransform = new AffineTransform();
+  private static final AffineTransform nullTransform = new AffineTransform();
 
-  public Path(Pose2d startingPoint, Pose2d endingPoint, List<Obstacle> obstacles) {
-    this.startingPoint = startingPoint;
+  private GriddedField field;
+
+  private CharliesAstar aStar;
+
+  private Drive drive;
+
+  public Path(
+      Pose2d startingPoint,
+      Pose2d endingPoint,
+      List<Obstacle> stationaryObstacles,
+      GriddedField field,
+      Drive drive) {
     this.endingPoint = endingPoint;
-    this.obstacles = obstacles;
+    this.obstacles = stationaryObstacles;
+    this.field = field;
+    this.drive = drive;
+    aStar =
+        new CharliesAstar(
+            field, field.coordsToBox(new Translation2d(endingPoint.getX(), endingPoint.getY())));
   }
 
   /**
@@ -73,7 +94,42 @@ public class Path {
    *
    * @return whether the goal can be driven straight to.
    */
-  public boolean setPointSeeable() {
+  public boolean setPointSeeable(Pose2d startingPoint) {
     return pointSeeable(startingPoint, endingPoint, obstacles);
+  }
+
+  /**
+   * Calculates a path from the starting point to the ending point which avoids all obstacles.
+   *
+   * @param startingPoint The current position of the robot as a Translation2d.
+   * @param endingPoint The goal position of the robot as a Translation2d.
+   * @param movingObstacles The temporary obstacles of which will be placed on the field for the
+   *     calculation.
+   * @return A list of Translation2ds which represent the coordinate path of the robot.
+   */
+  public List<Translation2d> calculatePath(
+      Translation2d startingPoint, List<Obstacle> movingObstacles) {
+    field.addTempObstacles(movingObstacles);
+    return aStar.pathMaker(startingPoint, endingPoint.getTranslation());
+  }
+
+  /**
+   * Sends the robot to drive to the next point on its path toward the goal.
+   *
+   * @param movingObstacles The new position of the obstacles.
+   * @param speed The speed wanted at the next pose.
+   * @return A command to send the robot to the next position in its heroic journey.
+   */
+  public Command goToNextPose(List<Obstacle> movingObstacles, double speed) {
+    field.addTempObstacles(movingObstacles);
+    if (refreshMeter >= REFRESH_TIME) {
+      aStar.assignCosts(field.coordsToBox(endingPoint.getTranslation()));
+      refreshMeter = 0;
+    } else {
+      refreshMeter++;
+    }
+    return drive.goToState(
+        new Pose2d(aStar.nextPos(drive.getPose().getTranslation()), endingPoint.getRotation()),
+        speed);
   }
 }

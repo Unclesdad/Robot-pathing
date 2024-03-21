@@ -9,13 +9,20 @@ public class Convenience {
    * @param intOne It's an integer.
    * @param intTwo You won't believe this. It's another integer. Groundbreaking stuff huh
    */
-  public record Point(int intOne, int intTwo) {
+  public record Point(int x, int y) {
+
+    /**
+     * @return x
+     */
     public final int getX() {
-      return intOne;
+      return x;
     }
 
+    /**
+     * @return y
+     */
     public final int getY() {
-      return intTwo;
+      return y;
     }
   }
 }

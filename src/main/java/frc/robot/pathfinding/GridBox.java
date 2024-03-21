@@ -1,5 +1,6 @@
 package frc.robot.pathfinding;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import java.util.List;
 
 public class GridBox {
@@ -7,15 +8,22 @@ public class GridBox {
 
   private int assignedValue = 0;
 
-  public static final double MAX_ASSIGNED_VALUE = 3;
+  public static final int MAX_ASSIGNED_VALUE = 3;
 
   private double cost = 0;
 
   private int XValue;
   private int YValue;
 
+  // List of GridBoxes that this GridBox will not take new costs from.
   private List<GridBox> ignoreList = List.of();
 
+  /**
+   * Constructor for a GridBox.
+   *
+   * @param XValue
+   * @param YValue
+   */
   public GridBox(int XValue, int YValue) {
     this.XValue = XValue;
     this.YValue = YValue;
@@ -87,9 +95,33 @@ public class GridBox {
   }
 
   /**
-   * Finds whether or not the grid should have its neighbor's cost considered. 
-   * This method mainly exists for performance reasons.
-   * @param p The gridbox from which the proposed new cost is coming from. 
+   * @return The X-value of the GridBox outside of the grid.
+   */
+  public double getUngriddedX() {
+    return XValue * GriddedField.GRID_SIDE_LENGTH;
+  }
+
+  /**
+   * @return The Y-value of the GridBox outside of the grid.
+   */
+  public double getUngriddedY() {
+    return YValue * GriddedField.GRID_SIDE_LENGTH;
+  }
+
+  /**
+   * Converts the GridBox to a Translation2d.
+   *
+   * @return The Translation2d position of the GridBox.
+   */
+  public Translation2d boxToTranslation() {
+    return new Translation2d(getUngriddedX(), getUngriddedY());
+  }
+
+  /**
+   * Finds whether or not the grid should have its neighbor's cost considered. This method mainly
+   * exists for performance reasons.
+   *
+   * @param p The gridbox from which the proposed new cost is coming from.
    * @return Whether or not the grid will take into accound its neighbor's cost.
    */
   public boolean assignable(GridBox p) {
