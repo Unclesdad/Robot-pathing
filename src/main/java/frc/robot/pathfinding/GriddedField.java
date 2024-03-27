@@ -17,7 +17,9 @@ public class GriddedField {
   public static final int LENGTH_GRID_NUMBER = (int) INT_FIELD_LENGTH / GRID_SIDE_LENGTH;
   public static final int WIDTH_GRID_NUMBER = (int) INT_FIELD_LENGTH / GRID_SIDE_LENGTH;
 
-  public final List<Obstacle> stationaryObstacles;
+  public final List<Obstacle> stationaryObstacles = Field.stationaryObstacles;
+
+  public List<Obstacle> movingObstacles;
 
   /* Increasing the grid size to make it GRID_SIDE_LENGTH on each side, because otherwise
    * it would take up too much processing power and we don't need that level of precision. */
@@ -31,8 +33,8 @@ public class GriddedField {
    * @param stationaryObstacles A list of obstacles which contains all the permanent, stationary
    *     2-dimensional obstacles on the field.
    */
-  public GriddedField(List<Obstacle> stationaryObstacles) {
-    this.stationaryObstacles = stationaryObstacles;
+  public GriddedField() {
+    movingObstacles = List.of();
 
     for (int x = 0; x < LENGTH_GRID_NUMBER; x++) {
       for (int y = 0; y < WIDTH_GRID_NUMBER; y++) {
@@ -65,6 +67,7 @@ public class GriddedField {
    *     updated by clearing the field and re-placing them in their new position every period.
    */
   public void addTempObstacles(List<Obstacle> obstacles) {
+    movingObstacles = obstacles;
     resetTemps();
     addObstacles(obstacles, fullField);
   }
@@ -110,6 +113,11 @@ public class GriddedField {
   /** Removes the temporary obstacles from the field. */
   public void resetTemps() {
     fullField = baseField;
+    movingObstacles.clear();
+  }
+
+  public List<Obstacle> getMovingObstacles() {
+    return movingObstacles;
   }
 
   /**

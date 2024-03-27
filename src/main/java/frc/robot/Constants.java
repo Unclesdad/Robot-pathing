@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import frc.robot.pathfinding.Obstacle;
+import java.util.List;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -28,5 +31,7 @@ public final class Constants {
   public final class Field {
     public static final double FIELD_LENGTH = 1654; // in cm
     public static final double FIELD_WIDTH = 821; // also in cm
+
+    public static final List<Obstacle> stationaryObstacles = List.of();
   }
 }
