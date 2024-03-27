@@ -3,16 +3,16 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.PathFollowing;
 import frc.robot.pathfinding.GriddedField;
-import frc.robot.pathfinding.Obstacle;
 import frc.robot.pathfinding.Path;
-import java.util.List;
 
 public class Drive {
   Pose2d hyptheticalPose = new Pose2d();
 
   Path path;
   GriddedField field;
+  PathFollowing follower;
 
   public PIDController pid =
       new PIDController(DriveConstants.kP, DriveConstants.kI, DriveConstants.kD);
@@ -37,9 +37,5 @@ public class Drive {
 
   public double getVelocity() {
     return 0;
-  }
-
-  public Command pathFind(List<Obstacle> obstacles) {
-    
   }
 }

@@ -6,8 +6,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Drive;
 import frc.robot.pathfinding.CharliesAstar;
 import frc.robot.pathfinding.GriddedField;
+import frc.robot.pathfinding.Obstacle;
 import frc.robot.pathfinding.Path;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class PathFollowing {
 
@@ -93,5 +95,11 @@ public class PathFollowing {
         Math.hypot(
             drive.pid.calculate(drive.getPose().getX(), path.endingPoint.getX()),
             drive.pid.calculate(drive.getPose().getY(), path.endingPoint.getY())));
+  }
+
+  public Command pathFollow(Supplier<List<Obstacle>> movingObstacles, Pose2d nextDestination) {
+    path.updateObstacles(movingObstacles);
+    pathEndCheck(nextDestination);
+    return goToNextPose();
   }
 }
