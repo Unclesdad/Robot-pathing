@@ -24,14 +24,15 @@ public class PathFollowing {
   private GriddedField field;
   private CharliesAstar aStar;
 
-  public PathFollowing(Path path, Drive drive, GriddedField field) {
-    this.path = path;
+  public PathFollowing(Drive drive, GriddedField field) {
     this.drive = drive;
     this.field = field;
     aStar =
         new CharliesAstar(
             field,
             field.coordsToBox(new Translation2d(path.endingPoint.getX(), path.endingPoint.getY())));
+
+    newPath(drive.getPose());
   }
 
   /**

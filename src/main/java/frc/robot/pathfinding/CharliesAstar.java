@@ -1,11 +1,10 @@
 package frc.robot.pathfinding;
 
+import static frc.robot.pathfinding.PathfindingConstants.*;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.commands.PathFollowing;
-import frc.robot.pathfinding.PathfindingConstants;
 import frc.robot.pathfinding.Convenience.Point;
-
 import java.util.List;
 
 public class CharliesAstar {
@@ -69,8 +68,8 @@ public class CharliesAstar {
   private static double findCost(Point p) {
     return diagonalMovement(p) ? 1.4 : 1;
     /* 1.4 is an approximation for the square root of two.
-    * Extreme precision is not needed especially with the amount
-    * of calculations per second using this number. */ 
+     * Extreme precision is not needed especially with the amount
+     * of calculations per second using this number. */
   }
 
   /**
@@ -178,7 +177,7 @@ public class CharliesAstar {
     Rotation2d rotation = pointDirection(box);
 
     if (box != setPoint) {
-      if (box.getCost() < PathfindingConstants.COST_CREATIVITY) { // If the current box is within the current radius.
+      if (box.getCost() < COST_CREATIVITY) { // If the current box is within the current radius.
         for (Point i : intpair) {
 
           // Getting a box adjacent to the inputted one.

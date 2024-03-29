@@ -2,7 +2,6 @@ package frc.robot.pathfinding;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.Constants.Field;
-import main.java.frc.robot.pathfinding.PathfindingConstants;
 import frc.robot.Drive;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
@@ -30,6 +29,7 @@ public class Path {
 
   /**
    * Updates the moving obstacles.
+   *
    * @param obstacles The new obstacles that represent the moving ones.
    */
   public void updateObstacles(Supplier<List<Obstacle>> obstacles) {
@@ -38,6 +38,7 @@ public class Path {
 
   /**
    * Checks whether the robot is currently at the endpoint.
+   *
    * @return True if the robot is at the endpoint, false if it isn't.
    */
   public boolean atEndPoint() {

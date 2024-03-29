@@ -1,8 +1,6 @@
 package frc.robot.pathfinding;
 
 import edu.wpi.first.math.geometry.Translation2d;
-import main.java.frc.robot.pathfinding.PathfindingConstants;
-
 import java.util.List;
 
 public class GridBox {
@@ -125,6 +123,8 @@ public class GridBox {
    * @return Whether or not the grid will take into accound its neighbor's cost.
    */
   public boolean assignable(GridBox p) {
-    return assignedValue <= PathfindingConstants.MAX_ASSIGNED_VALUE && !(ignoreList.contains(p)) && !obstacled;
+    return assignedValue <= PathfindingConstants.MAX_ASSIGNED_VALUE
+        && !(ignoreList.contains(p))
+        && !obstacled;
   }
 }
