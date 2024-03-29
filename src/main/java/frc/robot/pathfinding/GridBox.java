@@ -1,14 +1,14 @@
 package frc.robot.pathfinding;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import main.java.frc.robot.pathfinding.PathfindingConstants;
+
 import java.util.List;
 
 public class GridBox {
   private boolean obstacled = false;
 
   private int assignedValue = 0;
-
-  public static final int MAX_ASSIGNED_VALUE = 3;
 
   private double cost = 0;
 
@@ -98,14 +98,14 @@ public class GridBox {
    * @return The X-value of the GridBox outside of the grid.
    */
   public double getUngriddedX() {
-    return XValue * GriddedField.GRID_SIDE_LENGTH;
+    return XValue * PathfindingConstants.GRID_SIDE_LENGTH;
   }
 
   /**
    * @return The Y-value of the GridBox outside of the grid.
    */
   public double getUngriddedY() {
-    return YValue * GriddedField.GRID_SIDE_LENGTH;
+    return YValue * PathfindingConstants.GRID_SIDE_LENGTH;
   }
 
   /**
@@ -125,6 +125,6 @@ public class GridBox {
    * @return Whether or not the grid will take into accound its neighbor's cost.
    */
   public boolean assignable(GridBox p) {
-    return assignedValue <= MAX_ASSIGNED_VALUE && !(ignoreList.contains(p)) && !obstacled;
+    return assignedValue <= PathfindingConstants.MAX_ASSIGNED_VALUE && !(ignoreList.contains(p)) && !obstacled;
   }
 }

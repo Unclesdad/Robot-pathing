@@ -31,7 +31,8 @@ public final class Constants {
   public final class Field {
     public static final double FIELD_LENGTH = 1654; // in cm
     public static final double FIELD_WIDTH = 821; // also in cm
-
-    public static final List<Obstacle> stationaryObstacles = List.of();
+    
+  // The stationary obstacles are predetermined. So, they would be inputted here.
+    public static final List<Obstacle> stationaryObstacles = List.of(); 
   }
 }

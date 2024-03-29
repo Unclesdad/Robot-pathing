@@ -2,19 +2,13 @@ package frc.robot.pathfinding;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import frc.robot.Constants;
+import frc.robot.commands.PathFollowing;
+import frc.robot.pathfinding.PathfindingConstants;
 import frc.robot.pathfinding.Convenience.Point;
+
 import java.util.List;
 
 public class CharliesAstar {
-
-  /* The distance from the start point of the path, before it begins to
-   * start focusing on the target point.
-   * Decreasing this number increases performance but decreases reliability,
-   * and increasing this number decreases performance but increases reliability.
-   * Each increase by 1, the radius at which it starts to focus increases by GriddedField.GRID_SIDE_LENGTH cm.
-   */
-  private final int COST_CREATIVITY = 60;
 
   private GriddedField field;
 
@@ -73,7 +67,10 @@ public class CharliesAstar {
   }
 
   private static double findCost(Point p) {
-    return diagonalMovement(p) ? Constants.rootwo : 1;
+    return diagonalMovement(p) ? 1.4 : 1;
+    /* 1.4 is an approximation for the square root of two.
+    * Extreme precision is not needed especially with the amount
+    * of calculations per second using this number. */ 
   }
 
   /**
@@ -181,7 +178,7 @@ public class CharliesAstar {
     Rotation2d rotation = pointDirection(box);
 
     if (box != setPoint) {
-      if (box.getCost() < COST_CREATIVITY) { // If the current box is within the current radius.
+      if (box.getCost() < PathfindingConstants.COST_CREATIVITY) { // If the current box is within the current radius.
         for (Point i : intpair) {
 
           // Getting a box adjacent to the inputted one.

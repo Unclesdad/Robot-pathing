@@ -3,13 +3,16 @@ package frc.robot.pathfinding;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.Constants;
 import frc.robot.Constants.Field;
+import main.java.frc.robot.pathfinding.PathfindingConstants;
+
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.ListIterator;
 
 public class GriddedField {
-  public static final int GRID_SIDE_LENGTH = 4;
+  // for ease of access and to make the coe look better
+  private static final int GRID_SIDE_LENGTH = PathfindingConstants.GRID_SIDE_LENGTH;
 
   public static final int INT_FIELD_LENGTH = (int) Field.FIELD_LENGTH;
   public static final int INT_FIELD_WIDTH = (int) Field.FIELD_WIDTH;
@@ -104,6 +107,11 @@ public class GriddedField {
     }
   }
 
+  /**
+   * Finds the GridBox at the designated coordinates (a Translation2d).
+   * @param p The point at which the GridBox is to be found.
+   * @return The GridBox at those coordinates
+   */
   public GridBox coordsToBox(Translation2d p) {
     int translatedX = (int) p.getX() / GRID_SIDE_LENGTH;
     int translatedY = (int) p.getY() / GRID_SIDE_LENGTH;
@@ -116,13 +124,12 @@ public class GriddedField {
     movingObstacles.clear();
   }
 
+  /** @return The current moving obstacles on the field. */
   public List<Obstacle> getMovingObstacles() {
     return movingObstacles;
   }
 
-  /**
-   * @return The GridBox double array representing the field.
-   */
+  /** @return The GridBox double array representing the field. */
   public GridBox[][] field() {
     return fullField;
   }
